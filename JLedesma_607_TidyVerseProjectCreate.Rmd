@@ -1,0 +1,76 @@
+---
+title: "JLedesma_607_Tidyverse"
+output: html_document
+date: "2022-10-31"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+## Here I will exhibit the capabilities of some of the dplyr package.  The dataset that I chose to sample is that of food price indexes over a 30 year period starting from January 1990 to January 2022.
+
+```{r read}
+library(dplyr)
+library(tidyr)
+FoodPriceDF <- read.table("https://raw.githubusercontent.com/johnnyboy1287/TidyverseProject/main/FAOFP1990_2022.csv")
+head(FoodPriceDF)
+```
+## Some useful summary functions: 
+```{r summary}
+
+#To find the maximum of a vector
+
+max(FoodPriceDF[,"Sugar"])
+
+#To find the minumum of a vector
+
+min(FoodPriceDF[,"Sugar"])
+
+#To find the mean of a vector
+
+mean(FoodPriceDF[,"Food.Price.Index"])
+
+#To find the median of a vector
+
+median(FoodPriceDF[,"Oils"])
+
+#Order rows by values of a column
+
+head(arrange(FoodPriceDF,Food.Price.Index))
+
+#Order rows by descending values
+
+head(arrange(FoodPriceDF,desc(Food.Price.Index)))
+
+
+```
+
+## We can also append,remove and modify columns based on the previous data and change the dataset
+
+```{r mutate}
+#Adding a new column that is the mean of the Meat and Dairy prices
+
+head(mutate(FoodPriceDF,MeatAndDairyMean = ((Meat + Dairy)/2)))
+
+#Lumping Animal related products(Meat and Dairy) into one column and erasing the original columns.
+
+head(transmute(FoodPriceDF, AnimalProducts = ((Meat + Dairy)/2)))
+
+#Separating the date column into month, day and year
+
+head(separate(FoodPriceDF,Date,c("month","day","year")))
+```
+## We can also filter based on the values or position
+
+```{r filter}
+## Filtering Food prices of sugar less that 50
+
+filter(FoodPriceDF,Sugar < 50)
+
+## Filtering the first 20 entries
+
+slice(FoodPriceDF,1:20)
+
+
+```
+
